@@ -79,7 +79,7 @@ orderRouter.post(
       current.getSeconds();
     let dateTime = cDate + ' ' + cTime;
     const NGAYDAT = new Date(dateTime);
-    await prisma.dONHANG.create({
+    const donhangs = await prisma.dONHANG.create({
       data: {
         MADH: a,
         MAKH: req.body.shippingAddress.fullname,
@@ -89,6 +89,19 @@ orderRouter.post(
         TRANGTHAI: 1,
         TTTHANHTOAN: 1,
       },
+    });
+    const arr = Array.from(
+      req.body.orderItems.map((x) => {
+        return {
+          MADH: donhangs.MADH,
+          MASP: x.slug,
+          SOLUONG: x.quantity,
+        };
+      })
+    );
+    console.log(arr);
+    await prisma.cTDONHANG.createMany({
+      data: arr,
     });
     res.status(201).send({ message: 'New order created', order });
   })

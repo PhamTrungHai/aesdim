@@ -19,11 +19,7 @@ main {
 }
 
 .bg-theme {
-  background-image: linear-gradient(
-    0.2deg,
-    rgb(31, 251, 16) 4.8%,
-    rgb(96, 224, 27) 85.5%
-  );
+  background-image: linear-gradient(0.2deg, #357733 2%, rgb(96, 224, 27) 85.5%);
 }
 
 .store-container {

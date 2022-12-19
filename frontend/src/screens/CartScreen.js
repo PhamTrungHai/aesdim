@@ -34,8 +34,9 @@ export default function CartScreen() {
       payload: item,
     });
   };
+  // navigate('/signin?redirect=/shipping');
   const checkoutHandler = () => {
-    navigate('/signin?redirect=/shipping');
+    navigate('/shipping');
   };
 
   return (

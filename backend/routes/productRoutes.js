@@ -27,7 +27,7 @@ productRouter.post(
   isAuth,
   isAdmin,
   expressAsyncHandler(async (req, res) => {
-    await Product.deleteMany({});
+    //await Product.deleteMany({});
     const products = await prisma.sANPHAM.findMany();
     products.map(async (product) => {
       const newProduct = new Product({
