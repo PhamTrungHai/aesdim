@@ -39,7 +39,6 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
-  axios.defaults.baseURL = 'https://be-3dre.onrender.com';
 
   const signoutHandler = () => {
     ctxDispatch({ type: 'USER_SIGNOUT' });
@@ -88,7 +87,7 @@ function App() {
                 <i className="fas fa-bars"></i>
               </Button>
               <LinkContainer to="/">
-                <Navbar.Brand>Laptopshop</Navbar.Brand>
+                <Navbar.Brand>SHOPBIAVIET</Navbar.Brand>
               </LinkContainer>
               <Navbar.Toggle aria-controls="basic-Navbar-nav" />
               <Navbar.Collapse id="basic-Navbar-nav">
@@ -106,12 +105,13 @@ function App() {
                     <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
                       <LinkContainer to="/profile">
                         <NavDropdown.Item>
-                          <i class="fa-sharp fa-solid fa-user"></i> User Profile
+                          <i className="fa-sharp fa-solid fa-user"></i> User
+                          Profile
                         </NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/orderhistory">
                         <NavDropdown.Item>
-                          <i class="fa-solid fa-receipt"></i> Order history
+                          <i className="fa-solid fa-receipt"></i> Order history
                         </NavDropdown.Item>
                       </LinkContainer>
                       <NavDropdown.Divider />
@@ -120,7 +120,8 @@ function App() {
                         to="#signout"
                         onClick={signoutHandler}
                       >
-                        <i class="fa-sharp fa-solid fa-door-open"></i> Sign Out
+                        <i className="fa-sharp fa-solid fa-door-open"></i> Sign
+                        Out
                       </Link>
                     </NavDropdown>
                   ) : (

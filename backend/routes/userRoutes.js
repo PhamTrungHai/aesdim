@@ -67,6 +67,17 @@ userRouter.delete(
   })
 );
 
+const generate = () => {
+  let length = 4;
+  const characters = 'abcdefghijklmnopqrstuvwxyz';
+  let result = ' ';
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+};
+
 userRouter.post(
   '/signin',
   expressAsyncHandler(async (req, res) => {
@@ -75,6 +86,7 @@ userRouter.post(
       if (bcrypt.compareSync(req.body.password, user.password)) {
         res.send({
           _id: user.id,
+          MAKH: user.MAKH,
           name: user.name,
           email: user.email,
           isAdmin: user.isAdmin,
@@ -91,12 +103,14 @@ userRouter.post(
   expressAsyncHandler(async (req, res) => {
     const newUser = new User({
       name: req.body.name,
+      MAKH: generate(),
       email: req.body.email,
-      password: bcrypt.hashSync(req.body.name),
+      password: bcrypt.hashSync(req.body.password),
     });
     const user = await newUser.save();
     res.send({
       _id: user.id,
+      MAKH: user.MAKH,
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,

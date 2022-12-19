@@ -2,6 +2,8 @@ import express from 'express';
 import Product from '../models/productModels.js';
 import expressAsyncHandler from 'express-async-handler';
 import { isAuth, isAdmin } from '../util.js';
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 const productRouter = express.Router();
 
@@ -10,24 +12,39 @@ productRouter.get('/', async (req, res) => {
   res.send(products);
 });
 
+function generate() {
+  let length = 4;
+  const characters = 'abcdefghijklmnopqrstuvwxyz';
+  let result = ' ';
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+}
+
 productRouter.post(
   '/',
   isAuth,
   isAdmin,
   expressAsyncHandler(async (req, res) => {
-    const newProduct = new Product({
-      name: 'sample name ' + Date.now(),
-      slug: 'sample-name-' + Date.now(),
-      image: '/images/p1.jpg',
-      price: 0,
-      category: 'sample category',
-      brand: 'sample brand',
-      countInStock: 0,
-      rating: 0,
-      numReview: 0,
-      description: 'sample description',
+    await Product.deleteMany({});
+    const products = await prisma.sANPHAM.findMany();
+    products.map(async (product) => {
+      const newProduct = new Product({
+        name: product.TENSP,
+        MASP: product.MASP,
+        slug: product.MASP,
+        image: product.HINHANH,
+        price: parseInt(product.DONGIA),
+        category: 'Bia',
+        brand: product.TENSP,
+        countInStock: Math.floor(Math.random() * 100),
+        rating: Math.floor(Math.random() * 5) + 1,
+        numReview: Math.floor(Math.random() * 30),
+        description: product.TENSP,
+      });
+      await newProduct.save();
     });
-    const product = await newProduct.save();
     res.send({ message: 'Product Created', product });
   })
 );

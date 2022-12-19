@@ -118,11 +118,11 @@ export default function PlaceOrderScreen() {
                 {cart.cartItems.map((item) => (
                   <ListGroup.Item key={item._id}>
                     <Row className="align-items-center">
-                      <Col md={6}>
+                      <Col md={6} className="hinhanh">
                         <img
                           src={item.image}
                           alt={item.name}
-                          className="img-fluid rounded img-thumbnail"
+                          className="cart-icon img-fluid rounded img-thumbnail"
                         ></img>{' '}
                         <Link to={`/product/${item.slug}`}>{item.name}</Link>
                       </Col>

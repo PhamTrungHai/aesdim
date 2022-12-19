@@ -55,11 +55,11 @@ export default function CartScreen() {
               {cartItems.map((item) => (
                 <ListGroup.Item key={item._id}>
                   <Row className="align-items-center">
-                    <Col md={4}>
+                    <Col md={4} className="hinhanh">
                       <img
                         src={item.image}
                         alt={item.name}
-                        className="img-fluid rounded img-thumbnail"
+                        className="cart-icon img-fluid rounded img-thumbnail"
                       ></img>{' '}
                       <Link to={`/product/${item.slug}`}>{item.name}</Link>
                     </Col>

@@ -4,6 +4,8 @@ import Product from '../models/productModels.js';
 import { isAuth, isAdmin } from '../util.js';
 import expressAsyncHandler from 'express-async-handler';
 import Order from '../models/orderModels.js';
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 const orderRouter = express.Router();
 
@@ -25,13 +27,26 @@ orderRouter.put(
     if (order) {
       order.isDelivered = true;
       order.deliveredAt = Date.now();
-      await order.save();
+      const result = await order.save();
       res.send({ message: 'Order Delivered' });
     } else {
       res.status(404).send({ message: 'Order Not Found' });
     }
   })
 );
+
+function generate() {
+  return new Promise((resolve) => {
+    let length = 4;
+    const characters = 'abcdefghijklmnopqrstuvwxyz';
+    let result = '';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    resolve(result);
+  });
+}
 
 orderRouter.post(
   '/',
@@ -48,6 +63,33 @@ orderRouter.post(
     });
 
     const order = await newOrder.save();
+    const a = await generate();
+    let current = new Date();
+    let cDate =
+      current.getFullYear() +
+      '-' +
+      (current.getMonth() + 1) +
+      '-' +
+      current.getDate();
+    let cTime =
+      current.getHours() +
+      ':' +
+      current.getMinutes() +
+      ':' +
+      current.getSeconds();
+    let dateTime = cDate + ' ' + cTime;
+    const NGAYDAT = new Date(dateTime);
+    await prisma.dONHANG.create({
+      data: {
+        MADH: a,
+        MAKH: req.body.shippingAddress.fullname,
+        SoLuongSP: order.orderItems.length,
+        TTien: req.body.totalPrice,
+        NGAYDAT: NGAYDAT,
+        TRANGTHAI: 1,
+        TTTHANHTOAN: 1,
+      },
+    });
     res.status(201).send({ message: 'New order created', order });
   })
 );
