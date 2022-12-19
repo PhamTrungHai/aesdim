@@ -103,6 +103,28 @@ orderRouter.post(
     await prisma.cTDONHANG.createMany({
       data: arr,
     });
+    const b = await generate();
+    await prisma.hOADON.create({
+      data: {
+        MAHD: b,
+        TONGTIEN: req.body.totalPrice,
+      },
+    });
+    const arr1 = Array.from(
+      req.body.orderItems.map((x) => {
+        return {
+          NGAY: NGAYDAT,
+          SOLUONGDH: 1,
+          TTIENDH: req.body.totalPrice,
+          MAHD: b,
+          MADH: a,
+        };
+      })
+    );
+    console.log(arr1);
+    await prisma.cTHOADON.createMany({
+      data: arr1,
+    });
     res.status(201).send({ message: 'New order created', order });
   })
 );
